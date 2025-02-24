@@ -1,1 +1,2 @@
-# phantom_mask_server
+# Phantom Mask - A Server for Pharmacies and Masks Data
+
