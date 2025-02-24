@@ -1,0 +1,44 @@
+services:
+  web:
+    container_name: backend
+    build: .
+    command: "uvicorn run:app --host 0.0.0.0 --port 8000"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/src:ro
+    ports:
+      - 8000:8000
+
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - PGUSER=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=d3XZdhqD
+      - POSTGRES_DB=phantom
+
+  pgadmin4:  # visit localhost:5050 to use
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: "always"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tlhuang@abc.com
+      PGADMIN_DEFAULT_PASSWORD: f3S4Cgha
+      PGADMIN_CONFIG_SESSION_EXPIRATION_TIME: 365
+      PGADMIN_CONFIG_MAX_SESSION_IDLE_TIME: 60
+    volumes:
+      - pgadmin4_data:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+volumes:
+  postgres_data:
+  pgadmin4_data:
